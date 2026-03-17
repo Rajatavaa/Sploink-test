@@ -5,7 +5,7 @@
       "capability": "summarization",
       "input_type": "text",
       "output_type": "summary",
-      "description": "Basic summarization agent using Groq",
+      "description": "Basic summarization agent",
       "quality_score": 1
     },
     {
@@ -13,7 +13,7 @@
       "capability": "summarization",
       "input_type": "text",
       "output_type": "summary",
-      "description": "Advanced summarization agent using Groq with better quality",
+      "description": "Advanced summarization agent",
       "quality_score": 3
     },
     {
@@ -21,7 +21,7 @@
       "capability": "question_answering",
       "input_type": "text",
       "output_type": "answer",
-      "description": "Answers questions and performs research using Groq"
+      "description": "Question answering agent"
     },
     {
       "name": "Calculator Agent",
@@ -35,7 +35,7 @@
       "capability": "content_generation",
       "input_type": "prompt",
       "output_type": "text",
-      "description": "Generates creative content using Groq"
+      "description": "Generates creative content"
     }
   ]
 }
