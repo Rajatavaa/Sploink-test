@@ -1,0 +1,41 @@
+{
+  "agents": [
+    {
+      "name": "Basic Summarizer",
+      "capability": "summarization",
+      "input_type": "text",
+      "output_type": "summary",
+      "description": "Basic summarization agent using Groq",
+      "quality_score": 1
+    },
+    {
+      "name": "Advanced Summarization Agent",
+      "capability": "summarization",
+      "input_type": "text",
+      "output_type": "summary",
+      "description": "Advanced summarization agent using Groq with better quality",
+      "quality_score": 3
+    },
+    {
+      "name": "Research Agent",
+      "capability": "question_answering",
+      "input_type": "text",
+      "output_type": "answer",
+      "description": "Answers questions and performs research using Groq"
+    },
+    {
+      "name": "Calculator Agent",
+      "capability": "math",
+      "input_type": "expression",
+      "output_type": "number",
+      "description": "Performs mathematical calculations and evaluates expressions"
+    },
+    {
+      "name": "Content Generator",
+      "capability": "content_generation",
+      "input_type": "prompt",
+      "output_type": "text",
+      "description": "Generates creative content using Groq"
+    }
+  ]
+}
