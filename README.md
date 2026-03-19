@@ -44,7 +44,7 @@ Server runs at `http://localhost:5137`
 
 **Terminal 1**: Start server
 ```bash
-python server.py
+python main.py
 ```
 
 **Terminal 2+**: Run client
@@ -84,7 +84,7 @@ python client.py -i
 ### Multi-User Support
 ```bash
 # Terminal 1: Server
-python server.py
+python main.py
 
 # Terminal 2: User A
 python client.py
