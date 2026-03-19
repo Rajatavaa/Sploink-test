@@ -1,7 +1,7 @@
 import json
 
 
-def parse_intent(user_input: str) -> dict:
+async def parse_intent(user_input: str) -> dict:
     """
     Rule-based intent parser.
     Maps user input to task types.

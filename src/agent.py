@@ -2,11 +2,11 @@ import json
 import re
 import os
 from dotenv import load_dotenv
-from groq import Groq
+from groq import AsyncGroq
 
 load_dotenv()
 
-client = Groq(
+client = AsyncGroq(
     api_key=os.environ.get("GROQ_API_KEY"),
 )
 
@@ -26,25 +26,28 @@ def load_agents():
     return AGENT_REGISTRY
 
 
-def summarize(user_input: str) -> str:
+async def summarize(user_input: str) -> str:
     """Summarizer Agent using Groq."""
     try:
         text = user_input.replace("summarize", "").replace("summary", "").strip()
         if not text:
             text = user_input
 
-        chat_completion = client.chat.completions.create(
+        chat_completion = await client.chat.completions.create(
             messages=[
                 {"role": "user", "content": f"Summarize the following text:\n\n{text}"}
             ],
             model="llama-3.1-8b-instant",
         )
-        return chat_completion.choices[0].message.content
+        return (
+            chat_completion.choices[0].message.content
+            or "[Summary Error] Empty response"
+        )
     except Exception as e:
         return f"[Summary Error] {str(e)}"
 
 
-def research(query: str) -> str:
+async def research(query: str) -> str:
     """Research Agent using Groq."""
     try:
         question = (
@@ -58,7 +61,7 @@ def research(query: str) -> str:
         if not question:
             question = query
 
-        chat_completion = client.chat.completions.create(
+        chat_completion = await client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
@@ -67,12 +70,15 @@ def research(query: str) -> str:
             ],
             model="llama-3.1-8b-instant",
         )
-        return chat_completion.choices[0].message.content
+        return (
+            chat_completion.choices[0].message.content
+            or "[Research Error] Empty response"
+        )
     except Exception as e:
         return f"[Research Error] {str(e)}"
 
 
-def calculate(user_input: str) -> str:
+async def calculate(user_input: str) -> str:
     """Calculator Agent - Evaluates math expressions."""
     try:
         import re
@@ -93,7 +99,7 @@ def calculate(user_input: str) -> str:
         return f"[Calculator] Error: {str(e)}"
 
 
-def generate_content(prompt: str) -> str:
+async def generate_content(prompt: str) -> str:
     """Content Generator Agent using Groq."""
     try:
         content_prompt = (
@@ -106,7 +112,7 @@ def generate_content(prompt: str) -> str:
         if not content_prompt:
             content_prompt = prompt
 
-        chat_completion = client.chat.completions.create(
+        chat_completion = await client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
@@ -115,7 +121,10 @@ def generate_content(prompt: str) -> str:
             ],
             model="llama-3.1-8b-instant",
         )
-        return chat_completion.choices[0].message.content
+        return (
+            chat_completion.choices[0].message.content
+            or "[Content Error] Empty response"
+        )
     except Exception as e:
         return f"[Content Generation Error] {str(e)}"
 
@@ -129,12 +138,13 @@ AGENT_FUNCTIONS = {
 }
 
 
-def execute_agent(agent: dict, user_input: str) -> str:
+async def execute_agent(agent: dict, user_input: str) -> str:
     """Executes the selected agent with user input."""
     agent_name = agent.get("name")
 
     if agent_name in AGENT_FUNCTIONS:
         func = AGENT_FUNCTIONS[agent_name]
-        return func(user_input)
+        result = await func(user_input)
+        return result if result is not None else f"[Error] Agent returned None"
 
     return f"[Error] No implementation found for agent: {agent_name}"

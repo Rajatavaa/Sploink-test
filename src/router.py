@@ -1,7 +1,7 @@
 from intent_parser import parse_intent, load_registry
 
 
-def route(intent: dict, agents: list = None) -> dict:
+async def route(intent: dict, agents: list = None) -> dict:
     """
     Routes intent to the appropriate agent.
     Supports evolution demo: chooses agent with highest quality_score.
@@ -30,9 +30,9 @@ def route(intent: dict, agents: list = None) -> dict:
     return selected
 
 
-def route_with_logging(intent: dict, agents: list = None) -> dict:
+async def route_with_logging(intent: dict, agents: list = None) -> dict:
     """Routes intent with logging output."""
-    selected = route(intent, agents)
+    selected = await route(intent, agents)
 
     if selected:
         print(

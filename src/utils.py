@@ -1,4 +1,5 @@
 import json
+import asyncio
 from datetime import datetime
 
 
@@ -43,6 +44,9 @@ def print_result(result: str) -> None:
     print("--------------\n")
 
 
-def get_user_input() -> str:
-    """Get user input from CLI."""
-    return input("Enter your request: ").strip()
+async def get_user_input() -> str:
+    """Get user input from CLI (non-blocking)."""
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(
+        None, lambda: input("Enter your request: ").strip()
+    )
